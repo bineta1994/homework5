@@ -75,6 +75,42 @@ def step_verify_benefit_cells(context):
     assert len(benefit_cells) == 10, f"Expected 10 benefit cells, but found {len(benefit_cells)}."
 
     print("Verified that there are 10 benefit cells.")
+
+@when('I scroll down to the "{section}" section')
+def step_scroll_to_section(context, section):
+    print(f"Scrolling down to the {section} section")
+    section_element = context.browser.find_element(By.CSS_SELECTOR, '[data-test="@web/SlingshotComponents/ProductsCarousel"]')
+    context.browser.execute_script("arguments[0].scrollIntoView();", section_element)
+    sleep(2)
+
+@when('I click on a product\'s initial "Add to Cart" button')
+def step_click_initial_add_to_cart(context):
+    print("Clicking on the product's initial 'Add to Cart' button")
+    add_to_cart_button = context.browser.find_element(By.ID, "addToCartButtonOrTextIdFor90459628")
+    add_to_cart_button.click()
+    sleep(2)
+
+@when('I click on the side window add to cart button')
+def step_click_side_window_add_to_cart(context):
+    print("Clicking on the side window add to cart button")
+    side_window_add_to_cart_button = context.browser.find_element(By.ID, "addToCartButtonOrTextIdFor90459628")
+    side_window_add_to_cart_button.click()
+    sleep(2)
+
+@when('I close the side window')
+def step_close_side_window(context):
+    print("Closing the side window")
+    close_button = context.browser.find_element(By.CSS_SELECTOR, 'div[class="sc-b5d0650b-2 kanrjj"]')
+    close_button.click()
+    sleep(2)
+
+@then('I should see a cart total or quantity in the cart')
+def step_verify_cart(context):
+    print("Verifying cart total or quantity")
+    cart_quantity = context.browser.find_element(By.CSS_SELECTOR, '[data-test="@web/CartLinkQuantity"]')
+    assert cart_quantity.text == "1", f"Expected 1 item in cart, but found {cart_quantity.text}."
+    print("Verified that there is 1 item in the cart.")
+
 @then('close the browser')
 def step_close_browser(context):
     print("Closing the browser")
