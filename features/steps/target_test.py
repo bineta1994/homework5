@@ -7,21 +7,25 @@ from behave import given, when, then
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+
 # Set up Chrome options for incognito mode
 chrome_options = Options()
 chrome_options.add_argument("--incognito")
 
 # Use a function to get a new driver instance
 def get_driver():
-    driver_path = r"C:\Users\dijae\PycharmProjects\homework4\chromedriver.exe"
+    driver_path = r"C:\Users\dijae\PycharmProjects\homework5\chromedriver.exe"
     service = Service(driver_path)
     return webdriver.Chrome(service=service, options=chrome_options)
 
+
 @given('I open "{url}"')
 def step_open_url(context, url):
-    print(f"Opening {url}")
-    context.browser = get_driver()
-    context.browser.get(url)
+    #print(f"Opening {url}")
+    #context.browser = get_driver()
+    #context.browser.get(url)
+    context.app.main_page.open_main()
+
 
 @when('I click on the cart icon')
 def step_click_cart_icon(context):
@@ -30,6 +34,9 @@ def step_click_cart_icon(context):
         EC.element_to_be_clickable((By.CSS_SELECTOR, "[data-test='@web/CartIcon']"))
     )
     cart_icon.click()
+@when('Search for {item}')
+def search_product(context, item):
+    context.app.header.search_product(item)
 
 @then('I should see the message "{message}"')
 def step_verify_message(context, message):
